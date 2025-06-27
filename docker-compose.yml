@@ -1,0 +1,23 @@
+version: '3.4'
+
+volumes:
+  l2_data:
+  das_data:
+
+services:
+  l2:
+    image: offchainlabs/nitro-node:v3.5.2-33d30c0
+    ports:
+      - "8545:8545"
+      - "8546:8546"
+    volumes:
+      - "${PWD}/nodeConfig.json:/config/nodeConfig.json"
+      - l2_data:/home/user/.arbitrum
+    entrypoint:
+      - "/usr/local/bin/nitro"
+      - --conf.file=/config/nodeConfig.json
+      - --execution.forwarding-target=wss://inevm.calderachain.xyz/ws
+      - --node.feed.input.url=wss://inevm.calderachain.xyz/feed
+      - --node.data-availability.rest-aggregator.urls="https://inevm.calderachain.xyz/rest-aggregator"
+      - --parent-chain.connection.url=
+      - --node.data-availability.parent-chain-node-url=
